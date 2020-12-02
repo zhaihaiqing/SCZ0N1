@@ -1,0 +1,15 @@
+from building import *
+
+src	= Glob('*.c')
+cwd = GetCurrentDir()
+
+CPPPATH = [cwd]
+
+#CPPPATH.append(cwd+'\\pb')
+#src.append('pb/SensorAckMessage.pb.c')
+#src.append('pb/SensorUpMessage.pb.c')
+#src.append('pb/SensorDownMessage.pb.c')
+
+group = DefineGroup('', src, depend = [''], CPPPATH=CPPPATH)
+
+Return('group')
