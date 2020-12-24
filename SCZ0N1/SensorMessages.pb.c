@@ -9,7 +9,7 @@
 PB_BIND(ConfigClockTask, ConfigClockTask, 2)
 
 
-PB_BIND(ConfigVibraWireParameter, ConfigVibraWireParameter, AUTO)
+PB_BIND(ConfigVibraWireParameter, ConfigVibraWireParameter, 2)
 
 
 PB_BIND(TopInfoNodeData, TopInfoNodeData, 2)
@@ -21,7 +21,7 @@ PB_BIND(ClockTaskTimeInfoSensorNode, ClockTaskTimeInfoSensorNode, AUTO)
 PB_BIND(ClockTaskSampleInfo, ClockTaskSampleInfo, AUTO)
 
 
-PB_BIND(VibraWireInfo, VibraWireInfo, AUTO)
+PB_BIND(VibraWireInfo, VibraWireInfo, 2)
 
 
 PB_BIND(VibraWireData, VibraWireData, AUTO)

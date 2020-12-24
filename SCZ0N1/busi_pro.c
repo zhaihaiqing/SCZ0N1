@@ -93,8 +93,8 @@ void BUSI_cmd_pro_entry(void *p)
 	pb_istream_t stream;
 	UTC_CLOCK_ENTRY_STRU clk_tmp;
 	static char msg_res;
-	LOG_W("request%d", __LINE__);
-	rt_pm_request(PM_SLEEP_MODE_NONE);
+	//LOG_E("BUSI_cmd_pro_entry,power_request%d", __LINE__);
+	//rt_pm_request(PM_SLEEP_MODE_NONE);
 	SensorMessages_SensorDownMessage msg = SensorMessages_SensorDownMessage_init_zero;
 
 	static unsigned char down_buf[SensorMessages_SensorDownMessage_size] = {0};
@@ -213,6 +213,7 @@ void BUSI_cmd_pro_entry(void *p)
 				else
 				{
 					busi_com_send_ack(msg.instruction_name, CODE_EINVAL, msg.instruction_id);
+					LOG_W("release=%d", __LINE__);
 					rt_pm_release(PM_SLEEP_MODE_NONE);
 					continue;
 				}
@@ -226,27 +227,28 @@ void BUSI_cmd_pro_entry(void *p)
 				rt_thread_mdelay(1);
 				tmp = adbs_read_bkpreg(0);
 				LOG_D("reboot=%x,%d", (tmp & 0xFFFF0000), (tmp & 0x0000FFFF));
-				rt_thread_mdelay(30 * 1000); //等待ack传完
+				rt_thread_mdelay(60 * 1000); //等待ack传完
 				rt_hw_cpu_reset();
 			}
 			else if (strstr(ins_name[Q_ALL], msg.instruction_name)) //如果是查询所有信息
 			{
-				rt_thread_mdelay(3);
+				rt_thread_mdelay(1000);
 
 				busi_com_send_data(SensorMessages_SensorUpMessage_topinfonodedata_tag, NULL, UP); //发送top信息
 				LOG_D("SensorMessages_SensorUpMessage_topinfonodedata_tag");
-				rt_thread_mdelay(3);
+				rt_thread_mdelay(1000);
 
 				busi_com_send_data(SensorMessages_SensorUpMessage_clocktasktimeinfosensornode_tag, NULL, UP); //发送时钟任务信息
 				LOG_D("SensorMessages_SensorUpMessage_clocktasktimeinfosensornode_tag");
-				rt_thread_mdelay(3);
+				rt_thread_mdelay(1000);
 
 				busi_com_send_data(SensorMessages_SensorUpMessage_clocktasksampleinfo_tag, NULL, UP);
 				LOG_D("SensorMessages_SensorUpMessage_clocktasksampleinfo_tag");
-				rt_thread_mdelay(3);
+				rt_thread_mdelay(1000);
 
 				busi_com_send_data(SensorMessages_SensorUpMessage_vibrawireinfo_tag, NULL, UP);
 				LOG_D("SensorMessages_SensorUpMessage_vibrawireinfo_tag");
+				rt_thread_mdelay(1000);
 			}
 			else if (strstr(ins_name[CFG_PAR], msg.instruction_name)) //如果是配置传感器参数
 			{
@@ -286,7 +288,7 @@ void BUSI_cmd_pro_entry(void *p)
 				scz_cfg_par.midfreq[16] = msg.msg.configvibrawireparameter.ch16_midfreq;
 
 				LOG_E("main_direction=%d", msg.msg.configvibrawireparameter.ch0_midfreq);
-				
+
 				save_scz0_cfg(&scz_cfg_par);
 
 				if (msg_res == 0)
@@ -329,10 +331,12 @@ void BUSI_clock_pro_entry(void *p)
 	{
 		if (rt_mq_recv(busi_mq_clk_pro_pipe, &clk_num_tmp, sizeof(clk_num_tmp), RT_WAITING_FOREVER) == RT_EOK)
 		{
+			rt_thread_mdelay(500);
+
 			switch (clk_num_tmp)
 			{
 			case 0: //时钟条目0
-				LOG_W("clk_num:%d", clk_num_tmp);
+				LOG_D("clk_num:%d", clk_num_tmp);
 				// if (is_busy())
 				// {
 				// 	LOG_W("release=%d", __LINE__);
@@ -352,36 +356,34 @@ void BUSI_clock_pro_entry(void *p)
 					rt_pm_release(PM_SLEEP_MODE_NONE);
 					break;
 				}
-				else
-				{
-					set_busy();
-				}
-				current_clk_num = 1; //将正在运行的条目改为1
-
-				// scz_cfg_par.sam_mode[0] = 0; //更新参数
-				// scz_cfg_par.local_ch[0] = 0;
-				// scz_cfg_par.ex_ch[0] = 0x8001;
-				// save_scz0_cfg(&scz_cfg_par);
-				// memset(&scz_cfg_par,0,sizeof(scz_cfg_par));
-				// get_scz0_cfg();
 
 				scz_sam_mode = scz_cfg_par.sam_mode[0];
 				scz_sam_l_ch = scz_cfg_par.local_ch[0];
 				scz_sam_e_ch = scz_cfg_par.ex_ch[0];
 
-				rt_memcpy(&scz_sam_midfreq, &scz_cfg_par.midfreq[0], sizeof(scz_sam_midfreq));
-				// {
-				// 	unsigned char i=0;
-				// 	for(i=0;i<17;i++)
-				// 	{
-				// 		LOG_W("scz_sam_midfreq[%d]:%d",i,scz_sam_midfreq[i]);
-				// 	}
-				// }
-				
-				//LOG_E("clk1 send start_sample_sem,l_ch:0x%x,e_ch:0x%x", scz_sam_l_ch, scz_sam_e_ch);
+				LOG_W("clk1 send start_sample_sem,l_ch:0x%x,e_ch:0x%x", scz_sam_l_ch, scz_sam_e_ch);
+				if ((scz_sam_l_ch == 0) && (scz_sam_e_ch == 0)) //如果全是0，则不开始采样
+				{
+					LOG_E("VW ch not cfg");
+				}
+				else
+				{
+					set_busy();
+					current_clk_num = 1; //将正在运行的条目改为1
 
-				rt_sem_release(&start_sample_sem); //处理完成后发送信号量
-				rt_timer_start(clr_busy_timer);
+					rt_memcpy(&scz_sam_midfreq, &scz_cfg_par.midfreq[0], sizeof(scz_sam_midfreq));
+
+					// {
+					// 	unsigned char i = 0;
+					// 	for (i = 0; i < 17; i++)
+					// 	{
+					// 		LOG_W("scz_sam_midfreq[%d]:%d", i, scz_sam_midfreq[i]);
+					// 	}
+					// }
+
+					rt_sem_release(&start_sample_sem); //处理完成后发送信号量
+					rt_timer_start(clr_busy_timer);
+				}
 			}
 			break;
 			case 2:
@@ -396,6 +398,8 @@ void BUSI_clock_pro_entry(void *p)
 				{
 					//set_busy();
 				}
+
+				rt_pm_release(PM_SLEEP_MODE_NONE);
 
 				//rt_sem_release(&start_sample_sem); //处理完成后发送信号量
 				/*
@@ -530,11 +534,8 @@ void BUSI_sam_pro_entry(void *p)
 			//LOG_D("mq_sam_res unix:%d, channel:%d, freq:%f, temp:%f, e_vol:%f", mq_sam_res.unix, mq_sam_res.channel, mq_sam_res.freq, mq_sam_res.temp, mq_sam_res.e_vol);
 			LOG_D("vw_data unix:%d, channel:%d, freq:%f, temp:%f, e_vol:%f", vw_data.vw_u_time[mq_sam_res.channel], mq_sam_res.channel, vw_data.vw_f_data[mq_sam_res.channel], vw_data.vw_t_data[mq_sam_res.channel], vw_data.vw_e_vlotage[mq_sam_res.channel]);
 
-			//busi_com_send_data(SensorMessages_SensorUpMessage_inclinationdata_tag, &mq_sam_res, UP);
-			//clr_busy();
-
-			LOG_W("release=%d", __LINE__);
-			rt_pm_release(PM_SLEEP_MODE_NONE);
+			// LOG_W("release=%d", __LINE__);
+			// rt_pm_release(PM_SLEEP_MODE_NONE);
 		}
 	}
 }
@@ -557,7 +558,7 @@ void BUSI_vw_data_send_pro_entry(void *p)
 
 		rt_sem_control(&one_sam_complete_sem, RT_IPC_CMD_RESET, RT_NULL); //等待前清零信号量，防止误操作
 		rt_sem_take(&one_sam_complete_sem, RT_WAITING_FOREVER);			  //等待数据收集信号量
-
+		rt_thread_mdelay(1000);
 		{
 			LOG_D("rx_one_sam_complete_sem,clk_num:%d", current_clk_num);
 
@@ -570,7 +571,7 @@ void BUSI_vw_data_send_pro_entry(void *p)
 
 				LOG_D("vw_data_send unix:%d, channel:%d, freq:%f, temp:%f, e_vol:%f", vw_data.vw_u_time[0], 0, vw_data.vw_f_data[0], vw_data.vw_t_data[0], vw_data.vw_e_vlotage[0]);
 				busi_com_send_data(SensorMessages_SensorUpMessage_vibrawiredata_tag, &vm_dat, UP);
-				rt_thread_mdelay(3);
+				rt_thread_mdelay(1000);
 			}
 			else
 			{
@@ -589,7 +590,7 @@ void BUSI_vw_data_send_pro_entry(void *p)
 
 							LOG_D("vw_data_send unix:%d, channel:%d, freq:%f, temp:%f, e_vol:%f", vw_data.vw_u_time[i], i, vw_data.vw_f_data[i], vw_data.vw_t_data[i], vw_data.vw_e_vlotage[i]);
 							busi_com_send_data(SensorMessages_SensorUpMessage_vibrawiredata_tag, &vm_dat, UP);
-							rt_thread_mdelay(3);
+							rt_thread_mdelay(1000);
 						}
 						tmp = tmp << 1;
 					}
@@ -600,6 +601,10 @@ void BUSI_vw_data_send_pro_entry(void *p)
 			clr_busy(); //清除忙标志
 
 			rt_thread_mdelay(10);
+			LOG_W("release=%d", __LINE__);
+			rt_pm_release(PM_SLEEP_MODE_NONE);
+			LOG_W("release=%d", __LINE__);
+			rt_pm_release(PM_SLEEP_MODE_NONE);
 		}
 	}
 }
@@ -632,6 +637,8 @@ void BUSI_vw_sam_test_pro_entry(void *p)
 		rt_sem_control(&start_sample_sem, RT_IPC_CMD_RESET, RT_NULL); //等待前清零信号量，防止误操作
 		rt_sem_take(&start_sample_sem, RT_WAITING_FOREVER);			  //等待数据收集信号量
 		LOG_W("busi recv start_sample_sem,l_ch:0x%x.e_ch:0x%x", scz_sam_l_ch, scz_sam_e_ch);
+
+		memset(&vw_data,0,sizeof(vw_data_reg_t));
 
 		if (scz_sam_l_ch >= 1) //主机通道采样
 		{
@@ -1057,7 +1064,7 @@ unsigned char data_check(unsigned char type, void *d_p)
 		{
 			return RT_EINVAL;
 		}
-		if((d_tmp->local_channel_bit != 0) && (d_tmp->ext_channel_bit !=0))
+		if ((d_tmp->local_channel_bit != 0) && (d_tmp->ext_channel_bit != 0))
 		{
 			return RT_EINVAL;
 		}

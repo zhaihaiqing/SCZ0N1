@@ -62,7 +62,7 @@ extern const pb_msgdesc_t SensorMessages_SensorDownMessage_msg;
 #define SensorMessages_SensorDownMessage_fields &SensorMessages_SensorDownMessage_msg
 
 /* Maximum encoded size of messages (where known) */
-#define SensorMessages_SensorDownMessage_size    289
+#define SensorMessages_SensorDownMessage_size    304
 
 #ifdef __cplusplus
 } /* extern "C" */

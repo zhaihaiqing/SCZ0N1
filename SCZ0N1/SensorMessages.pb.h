@@ -182,23 +182,23 @@ extern "C" {
 #define ConfigClockTask_second_tag               108
 #define ConfigClockTask_interval_tag             109
 #define ConfigClockTask_number_tag               110
-#define ConfigVibraWireParameter_ch0_midfreq_tag 1
-#define ConfigVibraWireParameter_ch1_midfreq_tag 2
-#define ConfigVibraWireParameter_ch2_midfreq_tag 3
-#define ConfigVibraWireParameter_ch3_midfreq_tag 4
-#define ConfigVibraWireParameter_ch4_midfreq_tag 5
-#define ConfigVibraWireParameter_ch5_midfreq_tag 6
-#define ConfigVibraWireParameter_ch6_midfreq_tag 7
-#define ConfigVibraWireParameter_ch7_midfreq_tag 8
-#define ConfigVibraWireParameter_ch8_midfreq_tag 9
-#define ConfigVibraWireParameter_ch9_midfreq_tag 10
-#define ConfigVibraWireParameter_ch10_midfreq_tag 11
-#define ConfigVibraWireParameter_ch11_midfreq_tag 12
-#define ConfigVibraWireParameter_ch12_midfreq_tag 13
-#define ConfigVibraWireParameter_ch13_midfreq_tag 14
-#define ConfigVibraWireParameter_ch14_midfreq_tag 15
-#define ConfigVibraWireParameter_ch15_midfreq_tag 16
-#define ConfigVibraWireParameter_ch16_midfreq_tag 17
+#define ConfigVibraWireParameter_ch0_midfreq_tag 101
+#define ConfigVibraWireParameter_ch1_midfreq_tag 102
+#define ConfigVibraWireParameter_ch2_midfreq_tag 103
+#define ConfigVibraWireParameter_ch3_midfreq_tag 104
+#define ConfigVibraWireParameter_ch4_midfreq_tag 105
+#define ConfigVibraWireParameter_ch5_midfreq_tag 106
+#define ConfigVibraWireParameter_ch6_midfreq_tag 107
+#define ConfigVibraWireParameter_ch7_midfreq_tag 108
+#define ConfigVibraWireParameter_ch8_midfreq_tag 109
+#define ConfigVibraWireParameter_ch9_midfreq_tag 110
+#define ConfigVibraWireParameter_ch10_midfreq_tag 111
+#define ConfigVibraWireParameter_ch11_midfreq_tag 112
+#define ConfigVibraWireParameter_ch12_midfreq_tag 113
+#define ConfigVibraWireParameter_ch13_midfreq_tag 114
+#define ConfigVibraWireParameter_ch14_midfreq_tag 115
+#define ConfigVibraWireParameter_ch15_midfreq_tag 116
+#define ConfigVibraWireParameter_ch16_midfreq_tag 117
 #define SystemBootInfo_version_tag               101
 #define SystemBootInfo_boot_src_tag              102
 #define TopInfoNodeData_battery_voltage_tag      3
@@ -211,23 +211,23 @@ extern "C" {
 #define VibraWireData_freq_tag                   2
 #define VibraWireData_temp_tag                   3
 #define VibraWireData_voltage_tag                5
-#define VibraWireInfo_ch0_midfreq_tag            1
-#define VibraWireInfo_ch1_midfreq_tag            2
-#define VibraWireInfo_ch2_midfreq_tag            3
-#define VibraWireInfo_ch3_midfreq_tag            4
-#define VibraWireInfo_ch4_midfreq_tag            5
-#define VibraWireInfo_ch5_midfreq_tag            6
-#define VibraWireInfo_ch6_midfreq_tag            7
-#define VibraWireInfo_ch7_midfreq_tag            8
-#define VibraWireInfo_ch8_midfreq_tag            9
-#define VibraWireInfo_ch9_midfreq_tag            10
-#define VibraWireInfo_ch10_midfreq_tag           11
-#define VibraWireInfo_ch11_midfreq_tag           12
-#define VibraWireInfo_ch12_midfreq_tag           13
-#define VibraWireInfo_ch13_midfreq_tag           14
-#define VibraWireInfo_ch14_midfreq_tag           15
-#define VibraWireInfo_ch15_midfreq_tag           16
-#define VibraWireInfo_ch16_midfreq_tag           17
+#define VibraWireInfo_ch0_midfreq_tag            101
+#define VibraWireInfo_ch1_midfreq_tag            102
+#define VibraWireInfo_ch2_midfreq_tag            103
+#define VibraWireInfo_ch3_midfreq_tag            104
+#define VibraWireInfo_ch4_midfreq_tag            105
+#define VibraWireInfo_ch5_midfreq_tag            106
+#define VibraWireInfo_ch6_midfreq_tag            107
+#define VibraWireInfo_ch7_midfreq_tag            108
+#define VibraWireInfo_ch8_midfreq_tag            109
+#define VibraWireInfo_ch9_midfreq_tag            110
+#define VibraWireInfo_ch10_midfreq_tag           111
+#define VibraWireInfo_ch11_midfreq_tag           112
+#define VibraWireInfo_ch12_midfreq_tag           113
+#define VibraWireInfo_ch13_midfreq_tag           114
+#define VibraWireInfo_ch14_midfreq_tag           115
+#define VibraWireInfo_ch15_midfreq_tag           116
+#define VibraWireInfo_ch16_midfreq_tag           117
 
 /* Struct field encoding specification for nanopb */
 #define ConfigClockTask_FIELDLIST(X, a) \
@@ -245,23 +245,23 @@ X(a, STATIC,   SINGULAR, INT32,    number,          110)
 #define ConfigClockTask_DEFAULT NULL
 
 #define ConfigVibraWireParameter_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, UINT32,   ch0_midfreq,       1) \
-X(a, STATIC,   SINGULAR, INT32,    ch1_midfreq,       2) \
-X(a, STATIC,   SINGULAR, INT32,    ch2_midfreq,       3) \
-X(a, STATIC,   SINGULAR, INT32,    ch3_midfreq,       4) \
-X(a, STATIC,   SINGULAR, INT32,    ch4_midfreq,       5) \
-X(a, STATIC,   SINGULAR, INT32,    ch5_midfreq,       6) \
-X(a, STATIC,   SINGULAR, INT32,    ch6_midfreq,       7) \
-X(a, STATIC,   SINGULAR, INT32,    ch7_midfreq,       8) \
-X(a, STATIC,   SINGULAR, INT32,    ch8_midfreq,       9) \
-X(a, STATIC,   SINGULAR, INT32,    ch9_midfreq,      10) \
-X(a, STATIC,   SINGULAR, INT32,    ch10_midfreq,     11) \
-X(a, STATIC,   SINGULAR, INT32,    ch11_midfreq,     12) \
-X(a, STATIC,   SINGULAR, INT32,    ch12_midfreq,     13) \
-X(a, STATIC,   SINGULAR, INT32,    ch13_midfreq,     14) \
-X(a, STATIC,   SINGULAR, INT32,    ch14_midfreq,     15) \
-X(a, STATIC,   SINGULAR, INT32,    ch15_midfreq,     16) \
-X(a, STATIC,   SINGULAR, INT32,    ch16_midfreq,     17)
+X(a, STATIC,   SINGULAR, UINT32,   ch0_midfreq,     101) \
+X(a, STATIC,   SINGULAR, INT32,    ch1_midfreq,     102) \
+X(a, STATIC,   SINGULAR, INT32,    ch2_midfreq,     103) \
+X(a, STATIC,   SINGULAR, INT32,    ch3_midfreq,     104) \
+X(a, STATIC,   SINGULAR, INT32,    ch4_midfreq,     105) \
+X(a, STATIC,   SINGULAR, INT32,    ch5_midfreq,     106) \
+X(a, STATIC,   SINGULAR, INT32,    ch6_midfreq,     107) \
+X(a, STATIC,   SINGULAR, INT32,    ch7_midfreq,     108) \
+X(a, STATIC,   SINGULAR, INT32,    ch8_midfreq,     109) \
+X(a, STATIC,   SINGULAR, INT32,    ch9_midfreq,     110) \
+X(a, STATIC,   SINGULAR, INT32,    ch10_midfreq,    111) \
+X(a, STATIC,   SINGULAR, INT32,    ch11_midfreq,    112) \
+X(a, STATIC,   SINGULAR, INT32,    ch12_midfreq,    113) \
+X(a, STATIC,   SINGULAR, INT32,    ch13_midfreq,    114) \
+X(a, STATIC,   SINGULAR, INT32,    ch14_midfreq,    115) \
+X(a, STATIC,   SINGULAR, INT32,    ch15_midfreq,    116) \
+X(a, STATIC,   SINGULAR, INT32,    ch16_midfreq,    117)
 #define ConfigVibraWireParameter_CALLBACK NULL
 #define ConfigVibraWireParameter_DEFAULT NULL
 
@@ -306,23 +306,23 @@ X(a, STATIC,   SINGULAR, INT32,    ext_channel_bit,  15)
 #define ClockTaskSampleInfo_DEFAULT NULL
 
 #define VibraWireInfo_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, UINT32,   ch0_midfreq,       1) \
-X(a, STATIC,   SINGULAR, UINT32,   ch1_midfreq,       2) \
-X(a, STATIC,   SINGULAR, UINT32,   ch2_midfreq,       3) \
-X(a, STATIC,   SINGULAR, UINT32,   ch3_midfreq,       4) \
-X(a, STATIC,   SINGULAR, UINT32,   ch4_midfreq,       5) \
-X(a, STATIC,   SINGULAR, UINT32,   ch5_midfreq,       6) \
-X(a, STATIC,   SINGULAR, UINT32,   ch6_midfreq,       7) \
-X(a, STATIC,   SINGULAR, UINT32,   ch7_midfreq,       8) \
-X(a, STATIC,   SINGULAR, UINT32,   ch8_midfreq,       9) \
-X(a, STATIC,   SINGULAR, UINT32,   ch9_midfreq,      10) \
-X(a, STATIC,   SINGULAR, UINT32,   ch10_midfreq,     11) \
-X(a, STATIC,   SINGULAR, UINT32,   ch11_midfreq,     12) \
-X(a, STATIC,   SINGULAR, UINT32,   ch12_midfreq,     13) \
-X(a, STATIC,   SINGULAR, UINT32,   ch13_midfreq,     14) \
-X(a, STATIC,   SINGULAR, UINT32,   ch14_midfreq,     15) \
-X(a, STATIC,   SINGULAR, UINT32,   ch15_midfreq,     16) \
-X(a, STATIC,   SINGULAR, UINT32,   ch16_midfreq,     17)
+X(a, STATIC,   SINGULAR, UINT32,   ch0_midfreq,     101) \
+X(a, STATIC,   SINGULAR, UINT32,   ch1_midfreq,     102) \
+X(a, STATIC,   SINGULAR, UINT32,   ch2_midfreq,     103) \
+X(a, STATIC,   SINGULAR, UINT32,   ch3_midfreq,     104) \
+X(a, STATIC,   SINGULAR, UINT32,   ch4_midfreq,     105) \
+X(a, STATIC,   SINGULAR, UINT32,   ch5_midfreq,     106) \
+X(a, STATIC,   SINGULAR, UINT32,   ch6_midfreq,     107) \
+X(a, STATIC,   SINGULAR, UINT32,   ch7_midfreq,     108) \
+X(a, STATIC,   SINGULAR, UINT32,   ch8_midfreq,     109) \
+X(a, STATIC,   SINGULAR, UINT32,   ch9_midfreq,     110) \
+X(a, STATIC,   SINGULAR, UINT32,   ch10_midfreq,    111) \
+X(a, STATIC,   SINGULAR, UINT32,   ch11_midfreq,    112) \
+X(a, STATIC,   SINGULAR, UINT32,   ch12_midfreq,    113) \
+X(a, STATIC,   SINGULAR, UINT32,   ch13_midfreq,    114) \
+X(a, STATIC,   SINGULAR, UINT32,   ch14_midfreq,    115) \
+X(a, STATIC,   SINGULAR, UINT32,   ch15_midfreq,    116) \
+X(a, STATIC,   SINGULAR, UINT32,   ch16_midfreq,    117)
 #define VibraWireInfo_CALLBACK NULL
 #define VibraWireInfo_DEFAULT NULL
 
@@ -360,11 +360,11 @@ extern const pb_msgdesc_t SystemBootInfo_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define ConfigClockTask_size                     120
-#define ConfigVibraWireParameter_size            184
+#define ConfigVibraWireParameter_size            199
 #define TopInfoNodeData_size                     79
 #define ClockTaskTimeInfoSensorNode_size         201
 #define ClockTaskSampleInfo_size                 33
-#define VibraWireInfo_size                       104
+#define VibraWireInfo_size                       119
 #define VibraWireData_size                       27
 #define SystemBootInfo_size                      15
 
