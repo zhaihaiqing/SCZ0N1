@@ -52,7 +52,7 @@ void BUSI_msg_pro_entry(void *p) //BUSI组件消息处理进程
     //get_com_cfg(BSCFG_CFG_FILENAME, &init_info, sizeof(init_info));
     get_com_cfg(UTCM_CFG_FILENAME, &clock_cfg, sizeof(clock_cfg));
     get_com_cfg(SN_FILENAME, sn, SN_LENGTH);
-    get_scz0_cfg(); //获取SCZ的配置参数
+    get_scz0_cfg();     //获取SCZ的配置参数
     nodeid = my_strchr(sn + 10, '0');
     ulog_tag_lvl_filter_set(LOG_TAG, pro_ini.PRO_LOG_LVL);
     {
@@ -71,59 +71,60 @@ void BUSI_msg_pro_entry(void *p) //BUSI组件消息处理进程
         }
 
         //创建命令解析线程
-        rt_thread_init(&thread_busi_cmd_pro,
-                       "busi_cmd_pro",
-                       BUSI_cmd_pro_entry,
-                       RT_NULL,
-                       thread_busi_cmd_pro_stack,
-                       sizeof(thread_busi_cmd_pro_stack),
-                       THREAD_PRIORITY - 2,
-                       THREAD_TIMESLICE);
+        rt_thread_init(&thread_busi_cmd_pro, 
+                        "busi_cmd_pro", 
+                        BUSI_cmd_pro_entry, 
+                        RT_NULL, 
+                        thread_busi_cmd_pro_stack, 
+                        sizeof(thread_busi_cmd_pro_stack), 
+                        THREAD_PRIORITY - 2, 
+                        THREAD_TIMESLICE);
         rt_thread_startup(&thread_busi_cmd_pro);
 
         //创建采样线程
-        rt_thread_init(&rthread_sam_msg_pro,
-                       "BUSI_sam_msg_pro",
-                       BUSI_sam_pro_entry,
-                       RT_NULL,
-                       thread_cont_sam_msg_pro_stack,
-                       sizeof(thread_cont_sam_msg_pro_stack),
-                       THREAD_PRIORITY - 2,
-                       THREAD_TIMESLICE);
+        rt_thread_init(&rthread_sam_msg_pro, 
+                        "BUSI_sam_msg_pro", 
+                        BUSI_sam_pro_entry, 
+                        RT_NULL, 
+                        thread_cont_sam_msg_pro_stack, 
+                        sizeof(thread_cont_sam_msg_pro_stack), 
+                        THREAD_PRIORITY - 2, 
+                        THREAD_TIMESLICE);
         rt_thread_startup(&rthread_sam_msg_pro);
 
         //创建时钟条目线程
-        rt_thread_init(&thread_busi_clock_pro,
-                       "BUSI_clk_pro",
-                       BUSI_clock_pro_entry,
-                       RT_NULL,
-                       thread_busi_clock_pro_stack,
-                       sizeof(thread_busi_clock_pro_stack),
-                       THREAD_PRIORITY - 2,
-                       THREAD_TIMESLICE);
+        rt_thread_init(&thread_busi_clock_pro, 
+                        "BUSI_clk_pro", 
+                        BUSI_clock_pro_entry, 
+                        RT_NULL, 
+                        thread_busi_clock_pro_stack, 
+                        sizeof(thread_busi_clock_pro_stack), 
+                        THREAD_PRIORITY - 2, 
+                        THREAD_TIMESLICE);
         rt_thread_startup(&thread_busi_clock_pro);
 
         //创建数据发送线程
-        rt_thread_init(&thread_vw_data_send_pro,
-                       "BUSI_data_send_pro",
-                       BUSI_vw_data_send_pro_entry,
-                       RT_NULL,
-                       thread_vw_data_send_pro_stack,
-                       sizeof(thread_vw_data_send_pro_stack),
-                       THREAD_PRIORITY - 2,
-                       THREAD_TIMESLICE);
+        rt_thread_init(&thread_vw_data_send_pro, 
+                        "BUSI_data_send_pro", 
+                        BUSI_vw_data_send_pro_entry, 
+                        RT_NULL, 
+                        thread_vw_data_send_pro_stack, 
+                        sizeof(thread_vw_data_send_pro_stack), 
+                        THREAD_PRIORITY - 2, 
+                        THREAD_TIMESLICE);
         rt_thread_startup(&thread_vw_data_send_pro);
 
         //创建振弦数据采集测试线程
-        rt_thread_init(&thread_vw_sam_test_pro,
-                       "BUSI_test_pro",
-                       BUSI_vw_sam_test_pro_entry,
-                       RT_NULL,
-                       thread_vw_sam_test_pro_stack,
-                       sizeof(thread_vw_sam_test_pro_stack),
-                       THREAD_PRIORITY - 2,
-                       THREAD_TIMESLICE);
+        rt_thread_init(&thread_vw_sam_test_pro, 
+                        "BUSI_test_pro", 
+                        BUSI_vw_sam_test_pro_entry, 
+                        RT_NULL, 
+                        thread_vw_sam_test_pro_stack, 
+                        sizeof(thread_vw_sam_test_pro_stack), 
+                        THREAD_PRIORITY - 2, 
+                        THREAD_TIMESLICE);
         rt_thread_startup(&thread_vw_sam_test_pro);
+
 
         mtx_com_send = rt_mutex_create("BUSI_com_send", RT_IPC_FLAG_FIFO);
     }
@@ -143,26 +144,25 @@ void BUSI_msg_pro_entry(void *p) //BUSI组件消息处理进程
             clock_cfg.clockEntry0.number = 65530;
         }
 
-        busi_com_send_msg(CP_CMD_DST(UTC_CMD_CFG_CE),
-                          MB_STATN_UTCM,
-                          &clock_cfg.clockEntry0,
-                          sizeof(UTC_CLOCK_ENTRY_STRU));
+        busi_com_send_msg(CP_CMD_DST(UTC_CMD_CFG_CE), 
+                            MB_STATN_UTCM, 
+                            &clock_cfg.clockEntry0, 
+                            sizeof(UTC_CLOCK_ENTRY_STRU));
     }
-    system_timer = rt_timer_create("BUSI_sys_timer",
-                                   system_timer_timeout,
-                                   RT_NULL, 1000 * 60,
-                                   RT_TIMER_FLAG_PERIODIC | RT_TIMER_FLAG_SOFT_TIMER);
+    system_timer = rt_timer_create("BUSI_sys_timer", 
+                                    system_timer_timeout, 
+                                    RT_NULL, 1000 * 60, 
+                                    RT_TIMER_FLAG_PERIODIC | RT_TIMER_FLAG_SOFT_TIMER);
     if (RT_NULL == system_timer)
     {
         LOG_E("timerr");
     }
     rt_timer_start(system_timer);
-
     while (1)
     {
         if (rt_mq_recv(&busi_pipe, &tmp_gms, sizeof(GMS_STRU), RT_WAITING_FOREVER) == RT_EOK) //从busi_pipe获取消息
         {
-            LOG_E("rt_mq_recv,power_request%d", __LINE__);
+            LOG_W("request%d", __LINE__);
             rt_pm_request(PM_SLEEP_MODE_NONE);
 
             if (tmp_gms.d_cmd.is_src_cmd == 1) //使用源的指令解析
@@ -170,7 +170,6 @@ void BUSI_msg_pro_entry(void *p) //BUSI组件消息处理进程
                 switch (tmp_gms.d_src) //判断消息源
                 {
                 case MB_STATN_COMX:
-
                     switch (tmp_gms.d_cmd.cmd) //使用源指令
                     {
                     case COMN0_CMD_RECV_DATA: //通信组件收到下行指令，转发到此
@@ -178,8 +177,7 @@ void BUSI_msg_pro_entry(void *p) //BUSI组件消息处理进程
                         unsigned char res;
                         busi_cmd_buf_t tmp;
                         tmp.d_len = tmp_gms.d_dl;
-                        //LOG_E("recv_len：%d", tmp.d_len);
-
+                        LOG_E("busi recv_len：%d", tmp.d_len);
                         LOG_HEX("comreceive", 16, tmp_gms.d_p, tmp_gms.d_dl);
                         if (tmp_gms.d_dl < 256)
                         {
@@ -211,14 +209,14 @@ void BUSI_msg_pro_entry(void *p) //BUSI组件消息处理进程
                         SCZ_SAM_SPVW0_DAT_RES_STRU scz_dat;
 
                         rt_memcpy(&scz_dat.channel, (SCZ_SAM_SPVW0_DAT_RES_STRU *)tmp_gms.d_p, sizeof(SCZ_SAM_SPVW0_DAT_RES_STRU));
-                        res = rt_mq_send(&busi_mq_sam_res_pipe, &scz_dat, sizeof(SCZ_SAM_SPVW0_DAT_RES_STRU)); //将接收到的数据发送至采集线程
+                        res = rt_mq_send(&busi_mq_sam_res_pipe, &scz_dat, sizeof(SCZ_SAM_SPVW0_DAT_RES_STRU));//将接收到的数据发送至采集线程
                         LOG_D("mq_cmd %d", res);
-
+                        
                         break;
                     }
                     case SPVW_RET_ACK:
                     {
-                        uint8_t ack_d = *(uint8_t *)tmp_gms.d_p;
+                        uint8_t ack_d = *(uint8_t *)tmp_gms.d_p; 
 
                         //mb_resp_msg(&tmp_gms, BUSI_CPID, 0); //释放信号量并返回结果
 
@@ -228,9 +226,7 @@ void BUSI_msg_pro_entry(void *p) //BUSI组件消息处理进程
                             rt_sem_release(&one_ch_complete_sem); //处理完成后发送信号量
                         }
                         //mb_resp_msg(&tmp_gms, BUSI_CPID, 0); //释放信号量并返回结果
-
                         LOG_D("SCZ Receive SPVW ack status=%d", ack_d);
-
                         break;
                     }
                     default:
@@ -241,7 +237,7 @@ void BUSI_msg_pro_entry(void *p) //BUSI组件消息处理进程
 
                 case MB_STATN_UTCM:
                 {
-                    LOG_E("MB_STATN_UTCM,request%d", __LINE__);
+                    LOG_W("request%d", __LINE__);
                     rt_pm_request(PM_SLEEP_MODE_NONE);
 
                     // rt_thread_mdelay(2000);
@@ -287,6 +283,7 @@ void BUSI_msg_pro_entry(void *p) //BUSI组件消息处理进程
             {
                 LOG_E("cmderr%d", __LINE__);
             }
+
             LOG_W("release=%d", __LINE__);
             rt_pm_release(PM_SLEEP_MODE_NONE);
         }

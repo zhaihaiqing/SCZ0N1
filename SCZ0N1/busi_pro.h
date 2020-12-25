@@ -377,4 +377,5 @@ extern void busi_down_data();
 unsigned char stop_sample();
 unsigned char data_check(unsigned char type, void *d_p);
 unsigned char busi_com_send_msg(unsigned char cmd, unsigned char des, void *pd, unsigned short len);
+void BUSI_clock_pro_entry_test(void );
 #endif
