@@ -175,8 +175,8 @@ void BUSI_cmd_pro_entry(void *p)
 				clk_tmp.minute = msg.msg.configclocktask.minute;
 				clk_tmp.second = msg.msg.configclocktask.second;
 				clk_tmp.interval = msg.msg.configclocktask.interval;
-				if (clk_tmp.interval < 2)
-					clk_tmp.interval = 2;
+				// if (clk_tmp.interval < 2)
+				// 	clk_tmp.interval = 2;
 				clk_tmp.number = msg.msg.configclocktask.number;
 
 				if (msg.msg.configclocktask.clock_num == 1) //时钟条目1
@@ -211,7 +211,8 @@ void BUSI_cmd_pro_entry(void *p)
 				}
 				else if (msg.msg.configclocktask.clock_num == 0) //时钟条目0
 				{
-					rt_memcpy(&clock_cfg.clockEntry0, &clk_tmp, sizeof(clk_tmp));
+					//rt_memcpy(&clock_cfg.clockEntry0, &clk_tmp, sizeof(clk_tmp));
+					clock_cfg.clockEntry0.interval = clk_tmp.interval;	////NB默认开启时钟条目0，不支持关闭，只允远程改间隔配置
 					busi_com_send_msg(CP_CMD_DST(UTC_CMD_CFG_CE), MB_STATN_UTCM, &clock_cfg.clockEntry0, sizeof(UTC_CLOCK_ENTRY_STRU));
 				}
 				else

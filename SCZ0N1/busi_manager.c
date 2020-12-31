@@ -135,13 +135,13 @@ void BUSI_msg_pro_entry(void *p) //BUSI组件消息处理进程
         }
         else //无存储值
         {
-            clock_cfg.clockEntry0.is_on = pro_ini.CLK_IS_ON;
-            clock_cfg.clockEntry0.clock = pro_ini.CLK_NUM;
-            clock_cfg.clockEntry0.hour = 0;
-            clock_cfg.clockEntry0.minute = 3;
-            clock_cfg.clockEntry0.second = 16;
-            clock_cfg.clockEntry0.interval = pro_ini.INTERVAL;
-            clock_cfg.clockEntry0.number = 65530;
+            // clock_cfg.clockEntry0.is_on = pro_ini.CLK_IS_ON;
+            // clock_cfg.clockEntry0.clock = pro_ini.CLK_NUM;
+            // clock_cfg.clockEntry0.hour = 0;
+            // clock_cfg.clockEntry0.minute = 3;
+            // clock_cfg.clockEntry0.second = 16;
+            // clock_cfg.clockEntry0.interval = pro_ini.INTERVAL;
+            // clock_cfg.clockEntry0.number = 65530;
         }
 
         busi_com_send_msg(CP_CMD_DST(UTC_CMD_CFG_CE), 
