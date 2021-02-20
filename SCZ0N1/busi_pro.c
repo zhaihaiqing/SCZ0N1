@@ -238,6 +238,9 @@ void BUSI_cmd_pro_entry(void *p)
 			{
 				rt_thread_mdelay(150);
 
+				busi_com_send_ack(msg.instruction_name, RT_EOK, msg.instruction_id);
+				rt_thread_mdelay(1000);
+
 				busi_com_send_data(SensorMessages_SensorUpMessage_topinfonodedata_tag, NULL, UP); //发送top信息
 				LOG_D("SensorMessages_SensorUpMessage_topinfonodedata_tag");
 				rt_thread_mdelay(1000);
@@ -1113,6 +1116,10 @@ unsigned char data_check(unsigned char type, void *d_p)
 			return RT_EINVAL;
 		}
 		if ((d_tmp->local_channel_bit != 0) && (d_tmp->ext_channel_bit != 0))
+		{
+			return RT_EINVAL;
+		}
+		if ( d_tmp->ext_channel_bit > 65535)
 		{
 			return RT_EINVAL;
 		}
